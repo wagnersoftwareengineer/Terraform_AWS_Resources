@@ -1,6 +1,6 @@
 terraform {
 
-  required_version = "1.3.0"
+  required_version = "1.6.5"
   required_providers {
     aws = {
       source  = "hashicorp/aws"
@@ -8,13 +8,12 @@ terraform {
     }
   }
 }
-
 # Configure the AWS Provider
 provider "aws" {
   region = "us-east-1"
   default_tags {
     tags = {
-      owner = "wagner.santos"
+      owner     = "wagner.santos"
       managedby = "Wagner Santos"
     }
   }
