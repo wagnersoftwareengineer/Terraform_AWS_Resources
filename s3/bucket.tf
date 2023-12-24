@@ -1,5 +1,5 @@
 resource "aws_s3_bucket" "bucket" {
-  bucket = "labdevops-resource-ws"
+  bucket = var.bucket_name
 
   tags = {
     Name        = "labdevops"
