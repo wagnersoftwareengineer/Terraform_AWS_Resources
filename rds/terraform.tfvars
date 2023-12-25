@@ -1,0 +1,5 @@
+db_user            = "postgres"
+db_password        = "passworddatabase"
+db_name            = "labspostgresqldevops"
+engine_version     = "14.7"
+rds_identifier_name = "labspostgresqldevops"
