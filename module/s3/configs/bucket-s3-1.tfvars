@@ -1,2 +1,2 @@
-bucket_name = "bucket-devops-aws-ws-1"
+bucket_name = "labsbucket-aws-ws-1"
 acl_type    = "public-read"
