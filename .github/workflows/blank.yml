@@ -3,7 +3,7 @@ name: 'Terraform CI'
 on:
   push:
     branches:
-    - main
+      - main
   pull_request:
 
 jobs:
@@ -20,11 +20,17 @@ jobs:
     steps:
     # Checkout do código no runner do GitHub Actions.
     - name: Checkout code
-      uses: actions/checkout@v2
+      run: |
+        git clone https://github.com/${{ github.repository }}.git .
+        git checkout ${{ github.ref }}
 
-    # Configura o Terraform CLI.
-    - name: Setup Terraform
-      uses: hashicorp/setup-terraform@v1
+    # Instala o Terraform diretamente (Substitua pela versão específica do Terraform se necessário).
+    - name: Install Terraform
+      run: |
+        sudo apt-get update && sudo apt-get install -y software-properties-common
+        curl -fsSL https://apt.releases.hashicorp.com/gpg | sudo apt-key add -
+        sudo apt-add-repository "deb [arch=amd64] https://apt.releases.hashicorp.com $(lsb_release -cs) main"
+        sudo apt-get update && sudo apt-get install terraform
 
     # Inicializa o Terraform.
     - name: Terraform Init
@@ -33,7 +39,6 @@ jobs:
 
     # Executa o terraform plan e salva os outputs.
     - name: Terraform Plan
-      id: plan
       run: |
         terraform plan -out=tfplan
 
@@ -44,9 +49,7 @@ jobs:
         terraform apply "tfplan"
 
     # Opcional: Destruir infraestrutura para PRs ou branches não principais.
-    - name: Terraform Destroy
+    - name: Terraform Destroy (Optional)
       if: github.ref != 'refs/heads/main' && github.event_name == 'pull_request'
       run: |
         terraform destroy -auto-approve
-
-    # Adicione mais passos conforme necessário.
