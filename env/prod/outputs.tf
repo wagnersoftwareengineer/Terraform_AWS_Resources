@@ -1,9 +1,9 @@
-output "bucket_name" {
-  description = "The name of the S3 bucket"
-  value       = aws_s3_bucket.bucket.bucket
+output "prd_bucket_name" {
+  description = "The name of the S3 bucket in the dev environment"
+  value       = module.s3.bucket_name
 }
 
-output "acl_type" {
-  description = "The ACL type of the S3 bucket"
-  value       = aws_s3_bucket.bucket.acl
+output "prd_acl_type" {
+  description = "The ACL type of the S3 bucket in the dev environment"
+  value       = module.s3.acl_type
 }
