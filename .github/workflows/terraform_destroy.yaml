@@ -19,8 +19,6 @@ jobs:
 
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v1 # Configura o Terraform CLI
-
-      - name: Terraform Init and Destroy
  
       # Executa o terraform destroy para o módulo EC2
       - name: Terraform Destroy EC2
