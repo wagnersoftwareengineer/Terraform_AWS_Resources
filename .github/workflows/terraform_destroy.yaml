@@ -23,13 +23,13 @@ jobs:
       # Executa o terraform destroy para o módulo EC2
       - name: Terraform Destroy EC2
         run: |
-          cd ec2
+          cd module/ec2
           terraform init
           terraform destroy -auto-approve -var-file="configs/ec2.tfvars"
 
       # Executa o terraform destroy para o módulo S3
       - name: Terraform Destroy S3
         run: |
-          cd s3
+          cd module/s3
           terraform init
           terraform destroy -auto-approve -var-file="configs/bucket-s3-1.tfvars"
