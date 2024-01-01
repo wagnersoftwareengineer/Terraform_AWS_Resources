@@ -18,7 +18,9 @@ resource "aws_instance" "ec2" {
   ami                         = data.aws_ami.ubuntu.id
   instance_type               = "t2.micro"
   associate_public_ip_address = true
-  tags                    = var.tags_name
+  tags                        = {
+    Name = var.tags_name
+  }
 }
 
 resource "aws_security_group" "permitir_ssh_http" {
