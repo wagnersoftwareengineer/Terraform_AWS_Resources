@@ -1,0 +1,39 @@
+name: 'Terraform Apply Pipeline'
+
+on:
+  workflow_dispatch:
+
+jobs:
+  terraform-apply:
+    name: 'Terraform Apply'
+    runs-on: ubuntu-latest
+
+    env:
+      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      AWS_DEFAULT_REGION: ${{ secrets.AWS_DEFAULT_REGION }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      # Executa o terraform apply para o módulo EC2
+      - name: Terraform Apply EC2
+        run: |
+          cd module/ec2
+          terraform init
+          terraform apply -auto-approve -var-file="configs/ec2.tfvars"
+
+      # Executa o terraform apply para o módulo RDS
+      - name: Terraform Apply RDS
+        run: |
+          cd module/rds
+          terraform init
+          terraform apply -auto-approve -var-file="configs/terraform.tfvars"
+
+      # Executa o terraform apply para o módulo S3
+      - name: Terraform Apply S3
+        run: |
+          cd module/s3
+          terraform init
+          terraform apply -auto-approve -var-file="configs/bucket-s3-1.tfvars"
