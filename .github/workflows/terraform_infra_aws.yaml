@@ -17,18 +17,26 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
 
-      # Terraform Plan para o módulo EC2
-      - name: Terraform Plan EC2
+      # Terraform Init e Plan para o módulo EC2
+      - name: Terraform Init EC2
         run: |
           cd module/ec2
           terraform init
+
+      - name: Terraform Plan EC2
+        run: |
+          cd module/ec2
           terraform plan -var-file="configs/ec2.tfvars"
 
-      # Terraform Plan para o módulo S3
-      - name: Terraform Plan S3
+      # Terraform Init e Plan para o módulo S3
+      - name: Terraform Init S3
         run: |
           cd module/s3
           terraform init
+
+      - name: Terraform Plan S3
+        run: |
+          cd module/s3
           terraform plan -var-file="configs/bucket-s3-1.tfvars"
 
   terraform-apply:
@@ -44,13 +52,23 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
 
-      # Terraform Apply para o módulo EC2
+      # Terraform Init e Apply para o módulo EC2
+      - name: Terraform Init EC2
+        run: |
+          cd module/ec2
+          terraform init
+
       - name: Terraform Apply EC2
         run: |
           cd module/ec2
           terraform apply -var-file="configs/ec2.tfvars" -auto-approve
 
-      # Terraform Apply para o módulo S3
+      # Terraform Init e Apply para o módulo S3
+      - name: Terraform Init S3
+        run: |
+          cd module/s3
+          terraform init
+
       - name: Terraform Apply S3
         run: |
           cd module/s3
@@ -69,13 +87,23 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
 
-      # Terraform Destroy para o módulo EC2
+      # Terraform Init e Destroy para o módulo EC2
+      - name: Terraform Init EC2
+        run: |
+          cd module/ec2
+          terraform init
+
       - name: Terraform Destroy EC2
         run: |
           cd module/ec2
           terraform destroy -var-file="configs/ec2.tfvars" -auto-approve
 
-      # Terraform Destroy para o módulo S3
+      # Terraform Init e Destroy para o módulo S3
+      - name: Terraform Init S3
+        run: |
+          cd module/s3
+          terraform init
+
       - name: Terraform Destroy S3
         run: |
           cd module/s3
