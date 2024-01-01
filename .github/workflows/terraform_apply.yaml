@@ -24,13 +24,6 @@ jobs:
           terraform init
           terraform apply -auto-approve -var-file="configs/ec2.tfvars"
 
-      # Executa o terraform apply para o módulo RDS
-      - name: Terraform Apply RDS
-        run: |
-          cd module/rds
-          terraform init
-          terraform apply -auto-approve -var-file="configs/terraform.tfvars"
-
       # Executa o terraform apply para o módulo S3
       - name: Terraform Apply S3
         run: |
