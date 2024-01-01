@@ -1,0 +1,39 @@
+name: 'Terraform Plan Pipeline'
+
+on:
+  workflow_dispatch:
+
+jobs:
+  terraform-plan:
+    name: 'Terraform Plan'
+    runs-on: ubuntu-latest
+
+    env:
+      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      AWS_DEFAULT_REGION: ${{ secrets.AWS_DEFAULT_REGION }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      # Executa o terraform plan para o módulo EC2
+      - name: Terraform Plan EC2
+        run: |
+          cd module/ec2
+          terraform init
+          terraform plan -var-file="configs/ec2.tfvars"
+
+      # Executa o terraform plan para o módulo RDS
+      - name: Terraform Plan RDS
+        run: |
+          cd module/rds
+          terraform init
+          terraform plan -var-file="configs/terraform.tfvars"
+
+      # Executa o terraform plan para o módulo S3
+      - name: Terraform Plan S3
+        run: |
+          cd module/s3
+          terraform init
+          terraform plan -var-file="configs/bucket-s3-1.tfvars"
