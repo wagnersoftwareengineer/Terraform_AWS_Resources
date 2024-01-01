@@ -16,4 +16,7 @@ variable "key_name" {
   default     = ""
 }
 
-
+variable "tags_name" {
+  description = "Name of instance"
+  type        = string
+}

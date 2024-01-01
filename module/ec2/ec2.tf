@@ -18,11 +18,7 @@ resource "aws_instance" "ec2" {
   ami                         = data.aws_ami.ubuntu.id
   instance_type               = "t2.micro"
   associate_public_ip_address = true
-
-  tags = {
-    Name = "server-devops-wagner"
-    # Insira o nome da instância de sua preferência.
-  }
+  tags                    = var.tags_name
 }
 
 resource "aws_security_group" "permitir_ssh_http" {
