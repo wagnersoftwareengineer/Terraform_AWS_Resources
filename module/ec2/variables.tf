@@ -13,7 +13,7 @@ variable "instance_type" {
 variable "key_name" {
   description = "The key name to access EC2 instance."
   type        = string
-  default     = "tcb-blog"
+  default     = ""
 }
 
 
