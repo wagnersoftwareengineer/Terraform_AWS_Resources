@@ -1,0 +1,82 @@
+name: 'Terraform AWS Management'
+
+on:
+  workflow_dispatch:
+
+jobs:
+  terraform-plan:
+    name: 'Terraform Plan'
+    runs-on: ubuntu-latest
+
+    env:
+      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      AWS_DEFAULT_REGION: ${{ secrets.AWS_DEFAULT_REGION }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      # Terraform Plan para o módulo EC2
+      - name: Terraform Plan EC2
+        run: |
+          cd module/ec2
+          terraform init
+          terraform plan -var-file="configs/ec2.tfvars"
+
+      # Terraform Plan para o módulo S3
+      - name: Terraform Plan S3
+        run: |
+          cd module/s3
+          terraform init
+          terraform plan -var-file="configs/bucket-s3-1.tfvars"
+
+  terraform-apply:
+    needs: terraform-plan
+    name: 'Terraform Apply'
+    runs-on: ubuntu-latest
+    env:
+      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      AWS_DEFAULT_REGION: ${{ secrets.AWS_DEFAULT_REGION }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      # Terraform Apply para o módulo EC2
+      - name: Terraform Apply EC2
+        run: |
+          cd module/ec2
+          terraform apply -var-file="configs/ec2.tfvars" -auto-approve
+
+      # Terraform Apply para o módulo S3
+      - name: Terraform Apply S3
+        run: |
+          cd module/s3
+          terraform apply -var-file="configs/bucket-s3-1.tfvars" -auto-approve
+
+  terraform-destroy:
+    needs: terraform-apply
+    name: 'Terraform Destroy'
+    runs-on: ubuntu-latest
+    env:
+      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      AWS_DEFAULT_REGION: ${{ secrets.AWS_DEFAULT_REGION }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      # Terraform Destroy para o módulo EC2
+      - name: Terraform Destroy EC2
+        run: |
+          cd module/ec2
+          terraform destroy -var-file="configs/ec2.tfvars" -auto-approve
+
+      # Terraform Destroy para o módulo S3
+      - name: Terraform Destroy S3
+        run: |
+          cd module/s3
+          terraform destroy -var-file="configs/bucket-s3-1.tfvars" -auto-approve
