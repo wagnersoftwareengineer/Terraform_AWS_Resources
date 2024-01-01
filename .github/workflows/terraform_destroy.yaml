@@ -22,11 +22,11 @@ jobs:
         run: |
           cd module/ec2
           terraform init
-          terraform destroy -auto-approve -var-file="configs/ec2.tfvars"
+          terraform destroy -auto-approve
 
       # Executa o terraform destroy para o módulo S3
       - name: Terraform Destroy S3
         run: |
           cd module/s3
           terraform init
-          terraform destroy -auto-approve -var-file="configs/bucket-s3-1.tfvars"
+          terraform destroy -auto-approve
